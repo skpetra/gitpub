@@ -10,6 +10,10 @@
 	<ItemGroup>
 		<PackageReference Include="FastEndpoints" Version="6.2.0" />
 		<PackageReference Include="FastEndpoints.Swagger" Version="6.2.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="10.14.0.120626">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -19,6 +23,11 @@
 
 	<ItemGroup>
 		<Folder Include="Modules\Questions\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\WebAPI.BL\WebAPI.BL.csproj" />
+		<ProjectReference Include="..\WebAPI.DAL\WebAPI.DAL.csproj" />
 	</ItemGroup>
 
 </Project>
