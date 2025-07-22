@@ -14,5 +14,10 @@ internal class QuizConfiguration : IEntityTypeConfiguration<Quiz>
         builder.Property(x => x.Name)
             .IsRequired()
             .HasMaxLength(LengthConstants.NameLength);
+
+        builder.HasData(
+            new Quiz { Id = 1, Name = "Kviz opće kulture" },
+            new Quiz { Id = 2, Name = "Mali glazbeni kviz" }
+        );
     }
 }

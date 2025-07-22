@@ -18,4 +18,5 @@ app.UseMinimalApis();
 
 app.UseHttpsRedirection();
 
+await app.MigrateDatabaseAsync();
 await app.RunAsync();

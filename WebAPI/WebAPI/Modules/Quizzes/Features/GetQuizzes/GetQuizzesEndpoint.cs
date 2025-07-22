@@ -15,7 +15,7 @@ public class GetQuizzesEndpoint : ApiEndpoint<BasePaginatedRequest, GetQuizzesRe
         {
             s.Summary = "Fetches all quizzes.";
             s.Description = "Returns a paginated list of all quizzes stored in the database. " +
-                "Use page number and page size parameters to control the output.";
+                "Use page number and page size parameters to control the output. Pagination is zero-based.";
         });
     }
 

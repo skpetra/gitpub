@@ -22,4 +22,18 @@ public static class DatabaseBootstrap
             options.UseSqlServer(connectionString);
         }, ServiceLifetime.Scoped);
     }
+
+    /// <summary>
+    /// Applies any pending database migrations when the application starts.
+    /// Ensures that the database schema matches the current data model.
+    /// </summary>
+    /// <param name="app">The <see cref="WebApplication"/> instance.</param>
+    public static async Task MigrateDatabaseAsync(this WebApplication app)
+    {
+        using (var serviceScope = app.Services.CreateScope())
+        {
+            var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await context.Database.MigrateAsync();
+        }
+    }
 }

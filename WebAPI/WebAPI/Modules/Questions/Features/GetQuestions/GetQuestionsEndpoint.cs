@@ -14,7 +14,7 @@ public class GetQuestionsEndpoint : ApiEndpoint<GetQuestionsRequest, GetQuestion
         {
             s.Summary = "Fetches existing questions with optional text search and pagination.";
             s.Description = "Returns a paginated list of existing questions that can be filtered by a search term." +
-                " Use page number and page size parameters to control the output.";
+                " Use page number and page size parameters to control the output. Pagination is zero-based.";
         });
     }
 
