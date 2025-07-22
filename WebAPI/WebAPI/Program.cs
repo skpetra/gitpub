@@ -8,7 +8,7 @@ builder.AddMinimalApis();
 
 builder.Services.AddMapster();
 builder.Services.AddBusinessLogic();
-builder.Services.AddQuizExporters();
+builder.Services.AddQuizExporters(builder.Configuration);
 
 var app = builder.Build();
 
