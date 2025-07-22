@@ -8,6 +8,13 @@ namespace WebAPI.Modules.Quizzes.Features.UpdateQuiz;
 
 public class UpdateQuizEndpoint : ApiEndpoint<UpdateQuizRequest, EmptyResponse>
 {
+    private readonly ILogger<UpdateQuizEndpoint> _logger;
+
+    public UpdateQuizEndpoint(ILogger<UpdateQuizEndpoint> logger)
+    {
+        _logger = logger;
+    }
+
     public override void Configure()
     {
         Put("quizzes/{quizId}");
@@ -29,6 +36,7 @@ public class UpdateQuizEndpoint : ApiEndpoint<UpdateQuizRequest, EmptyResponse>
 
         if (quiz is null)
         {
+            _logger.LogWarning("Quiz with id '{QuizId}' not found.", req.QuizId);
             await SendNotFoundAsync(ct);
             return;
         }

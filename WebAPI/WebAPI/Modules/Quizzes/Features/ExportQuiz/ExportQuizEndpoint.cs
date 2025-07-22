@@ -1,6 +1,5 @@
 ﻿using FastEndpoints;
 using WebAPI.BL.Services.Interfaces;
-using WebAPI.Constants;
 using WebAPI.Core;
 
 namespace WebAPI.Modules.Quizzes.Features.ExportQuiz;
@@ -10,12 +9,14 @@ public class ExportQuizEndpoint : ApiEndpoint<ExportQuizRequest, EmptyResponse>
     private readonly IQuizService _quizService;
     private readonly IExportService _exportService;
     private readonly IEnumerable<IQuizExporter> _exporters;
+    private readonly ILogger<ExportQuizEndpoint> _logger;
 
-    public ExportQuizEndpoint(IQuizService quizService, IExportService exportService, IEnumerable<IQuizExporter> exporters)
+    public ExportQuizEndpoint(IQuizService quizService, IExportService exportService, IEnumerable<IQuizExporter> exporters, ILogger<ExportQuizEndpoint> logger)
     {
         _quizService = quizService;
         _exportService = exportService;
         _exporters = exporters;
+        _logger = logger;
     }
 
     public override void Configure()
@@ -36,6 +37,7 @@ public class ExportQuizEndpoint : ApiEndpoint<ExportQuizRequest, EmptyResponse>
 
         if (quiz is null)
         {
+            _logger.LogWarning("Quiz with id '{QuizId}' not found.", req.QuizId);
             await SendNotFoundAsync(ct);
             return;
         }
@@ -43,7 +45,7 @@ public class ExportQuizEndpoint : ApiEndpoint<ExportQuizRequest, EmptyResponse>
         var exporter = _exporters.FirstOrDefault(e => e.Format.Equals(req.Format, StringComparison.InvariantCultureIgnoreCase));
         if (exporter is null)
         {
-            AddError(ErrorConstants.Export.UnsupportedExportFormat);
+            _logger.LogWarning("Export format '{Format}' is not supported.", req.Format);
             await SendErrorsAsync(cancellation: ct);
             return;
         }
