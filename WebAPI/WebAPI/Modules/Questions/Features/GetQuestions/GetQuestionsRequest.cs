@@ -1,6 +1,6 @@
 ﻿using WebAPI.Core.Models;
 
-namespace WebAPI.Modules.Questions.GetQuestions.Features;
+namespace WebAPI.Modules.Questions.Features.GetQuestions;
 
 public record GetQuestionsRequest : BasePaginatedRequest
 {

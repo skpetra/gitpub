@@ -2,7 +2,7 @@
 using WebAPI.BL.Models.Questions;
 using WebAPI.Core;
 
-namespace WebAPI.Modules.Questions.GetQuestions.Features;
+namespace WebAPI.Modules.Questions.Features.GetQuestions;
 
 public class GetQuestionsEndpoint : ApiEndpoint<GetQuestionsRequest, GetQuestionsResponse>
 {
