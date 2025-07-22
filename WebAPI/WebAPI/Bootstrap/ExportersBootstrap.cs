@@ -1,4 +1,5 @@
-﻿using System.Composition.Hosting;
+﻿using Serilog;
+using System.Composition.Hosting;
 using System.Reflection;
 using WebAPI.BL.Services.Interfaces;
 
@@ -32,19 +33,26 @@ public static class ExportersBootstrap
     /// </remarks>
     public static IServiceCollection AddQuizExporters(this IServiceCollection services, IConfiguration configuration)
     {
-        var containerConfig = new ContainerConfiguration()
-            .WithAssembly(typeof(IQuizExporter).Assembly);
-
-        var externalAssemblies = LoadExternalAssemblies(configuration);
-        if (externalAssemblies.Any())
+        try
         {
-            containerConfig = containerConfig.WithAssemblies(externalAssemblies);
+            var containerConfig = new ContainerConfiguration()
+                .WithAssembly(typeof(IQuizExporter).Assembly);
+
+            var externalAssemblies = LoadExternalAssemblies(configuration);
+            if (externalAssemblies.Any())
+            {
+                containerConfig = containerConfig.WithAssemblies(externalAssemblies);
+            }
+
+            using var container = containerConfig.CreateContainer();
+            var exporters = container.GetExports<IQuizExporter>();
+
+            RegisterExporters(services, exporters);
         }
-
-        using var container = containerConfig.CreateContainer();
-        var exporters = container.GetExports<IQuizExporter>();
-
-        RegisterExporters(services, exporters);
+        catch (Exception ex)
+        {
+            Log.Error(ex, "An error occurred while adding quiz exporters.");
+        }
 
         return services;
     }

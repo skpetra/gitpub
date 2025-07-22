@@ -2,7 +2,7 @@
 using FluentValidation;
 using WebAPI.Constants;
 
-namespace WebAPI.Modules.Questions.GetQuestions.Features;
+namespace WebAPI.Modules.Questions.Features.GetQuestions;
 
 public class GetQuestionsValidator : Validator<GetQuestionsRequest>
 {
