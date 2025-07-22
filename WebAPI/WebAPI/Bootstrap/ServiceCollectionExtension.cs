@@ -10,7 +10,6 @@ public static class ServiceCollectionExtension
 {
     /// <summary>
     /// Registers all business logic services with their corresponding interfaces in the dependency injection container.
-    /// All services are registered with <see cref="ServiceLifetime.Scoped"/> lifetime to ensure proper Entity Framework context handling.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to add services to.</param>
     /// <returns>The <see cref="IServiceCollection"/> instance with business logic services registered.</returns>
@@ -18,6 +17,8 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<IQuizService, QuizService>();
         services.AddScoped<IQuestionService, QuestionService>();
+
+        services.AddSingleton<IExportService, ExportService>();
 
         return services;
     }

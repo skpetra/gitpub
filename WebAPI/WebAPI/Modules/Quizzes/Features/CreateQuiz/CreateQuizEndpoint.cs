@@ -36,7 +36,7 @@ public class CreateQuizEndpoint : ApiEndpoint<BaseQuizRequest, CreateQuizRespons
         var existingQuestions = new List<Question>();
         if (req.ExistingQuestionIds.Length > 0)
         {
-            existingQuestions = await _questionService.GetQuestionsByIdsAsync(req.ExistingQuestionIds, ct);
+            existingQuestions = (await _questionService.GetQuestionsByIdsAsync(req.ExistingQuestionIds, ct)).ToList();
         }
 
         var quiz = new Quiz

@@ -25,7 +25,7 @@ public class QuestionService : IQuestionService
         return existingQuestionIds.Count == questionIds.Length;
     }
 
-    public async Task<List<Question>> GetQuestionsByIdsAsync(int[] questionIds, CancellationToken ct = default)
+    public async Task<IEnumerable<Question>> GetQuestionsByIdsAsync(int[] questionIds, CancellationToken ct = default)
     {
         return await _context.Questions
             .Where(q => questionIds.Contains(q.Id))
