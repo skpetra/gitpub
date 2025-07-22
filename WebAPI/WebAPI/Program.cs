@@ -4,18 +4,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddDatabaseContext();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwagger();
-
 builder.AddMinimalApis();
 
-var app = builder.Build();
+builder.Services.AddMapster();
+builder.Services.AddBusinessLogic();
+builder.Services.AddQuizExporters(builder.Configuration);
 
-if (app.Environment.IsDevelopment())
-{
-    app.EnableSwagger();
-}
+var app = builder.Build();
 
 app.UseMinimalApis();
 

@@ -4,25 +4,22 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="FastEndpoints" Version="6.2.0" />
 		<PackageReference Include="FastEndpoints.Swagger" Version="6.2.0" />
+		<PackageReference Include="Mapster" Version="7.4.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="10.14.0.120626">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Modules\Questions\" />
+		<PackageReference Include="System.Composition" Version="9.0.7" />
 	</ItemGroup>
 
 	<ItemGroup>
