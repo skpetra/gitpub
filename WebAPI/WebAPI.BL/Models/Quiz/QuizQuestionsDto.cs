@@ -5,6 +5,6 @@ using WebAPI.DAL.Models;
 
 public record QuizQuestionsDto : BaseDto<QuizQuestionsDto, Quiz>
 {
-    public string Name { get; set; } = string.Empty;
-    public List<QuestionDto> Questions { get; set; } = new List<QuestionDto>();
+    public required string Name { get; set; }
+    public List<QuestionDto> Questions { get; set; } = [];
 }

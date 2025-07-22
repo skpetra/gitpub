@@ -4,6 +4,6 @@ namespace WebAPI.BL.Models.Questions;
 
 public record QuestionAddDto : BaseDto<QuestionAddDto, Question>
 {
-    public string Text { get; set; } = string.Empty;
-    public string Answer { get; set; } = string.Empty;
+    public required string Text { get; set; }
+    public required string Answer { get; set; }
 }

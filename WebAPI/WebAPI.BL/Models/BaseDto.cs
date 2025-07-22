@@ -3,7 +3,7 @@
 namespace WebAPI.BL.Models;
 
 public abstract record BaseDto<TDto, TEntity> : IRegister
-    where TDto : class, new()
+    where TDto : class
     where TEntity : class
 {
     public TEntity ToEntity()
