@@ -14,16 +14,18 @@ public class GetQuizzesEndpoint : ApiEndpoint<BasePaginatedRequest, GetQuizzesRe
         Summary(s =>
         {
             s.Summary = "Fetches all quizzes.";
-            s.Description = "Returns a paginated list of all quizzes stored in the database. " +
+            s.Description = "Returns a paginated list of all quizzes stored in the database, ordered by name. " +
                 "Use page number and page size parameters to control the output. Pagination is zero-based.";
         });
     }
 
     public override async Task HandleAsync(BasePaginatedRequest req, CancellationToken ct)
     {
-        var query = Context.Quizzes.AsNoTracking();
+        var query = Context.Quizzes
+                .AsNoTracking()
+                .OrderBy(q => q.Name);
 
-        var totalCount = await query.CountAsync(ct);
+        var totalCount = await Context.Quizzes.CountAsync(ct);
 
         var quizzes = await query
             .Skip(req.PageNumber * req.PageSize)
