@@ -19,12 +19,17 @@ public class QuizService : IQuizService
         return await _context.Quizzes.AnyAsync(q => q.Name == name, ct);
     }
 
-    public async Task<QuizQuestionsDto> GetQuizAsync(int id, CancellationToken ct = default)
+    public async Task<QuizQuestionsDto?> GetQuizAsync(int id, CancellationToken ct = default)
     {
         var quiz = await _context.Quizzes
             .Include(q => q.Questions)
             .AsNoTracking()
             .FirstOrDefaultAsync(q => q.Id == id, ct);
+
+        if (quiz is null)
+        {
+            return null;
+        }
 
         return QuizQuestionsDto.FromEntity(quiz);
     }

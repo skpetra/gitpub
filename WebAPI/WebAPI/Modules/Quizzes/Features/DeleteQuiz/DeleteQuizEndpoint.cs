@@ -20,10 +20,11 @@ public class DeleteQuizEndpoint : ApiEndpoint<DeleteQuizRequest, EmptyResponse>
         Summary(s =>
         {
             s.Summary = "Deletes a specific quiz.";
-            s.Description = "Deletes a quiz by its ID. The quiz will be removed and no longer appear in quiz listings, " +
-                "but its associated questions will remain in the system for future reuse.";
+            s.Description = "Deletes a quiz by its ID. The quiz will be deleted " +
+                "but its associated questions will remain in the database for future reuse.";
         });
     }
+
     public override async Task HandleAsync(DeleteQuizRequest req, CancellationToken ct)
     {
         var quiz = await Context.Quizzes
