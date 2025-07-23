@@ -14,15 +14,18 @@ public class ExportToCsvService : IQuizExporter
 
     public async Task<byte[]> ExportAsync(QuizQuestionsDto quiz, CancellationToken ct = default)
     {
-        var csv = new StringBuilder();
-        csv.AppendLine($"{nameof(Question.Text)},{nameof(Question.Answer)}");
+        await using var memoryStream = new MemoryStream();
+        await using var writer = new StreamWriter(memoryStream, Encoding.UTF8);
+
+        await writer.WriteLineAsync($"{nameof(Question.Text)},{nameof(Question.Answer)}");
 
         foreach (var question in quiz.Questions)
         {
-            csv.AppendLine($"{question.Text},{question.Answer}");
+            await writer.WriteLineAsync($"{question.Text},{question.Answer}");
         }
 
-        var csvContent = csv.ToString();
-        return Encoding.UTF8.GetBytes(csvContent);
+        await writer.FlushAsync(ct);
+
+        return memoryStream.ToArray();
     }
 }

@@ -1,6 +1,0 @@
-@Web.API_HostAddress = http://localhost:5131/api
-
-GET {{Web.API_HostAddress}}/hello
-Accept: application/json
-
-###
