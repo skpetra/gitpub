@@ -6,6 +6,13 @@ namespace WebAPI.Modules.Quizzes.Features.DeleteQuiz;
 
 public class DeleteQuizEndpoint : ApiEndpoint<DeleteQuizRequest, EmptyResponse>
 {
+    private readonly ILogger<DeleteQuizEndpoint> _logger;
+
+    public DeleteQuizEndpoint(ILogger<DeleteQuizEndpoint> logger)
+    {
+        _logger = logger;
+    }
+
     public override void Configure()
     {
         Delete("quizzes/{quizId}");
@@ -25,6 +32,7 @@ public class DeleteQuizEndpoint : ApiEndpoint<DeleteQuizRequest, EmptyResponse>
 
         if (quiz is null)
         {
+            _logger.LogWarning("Quiz with id '{QuizId}' not found.", req.QuizId);
             await SendNotFoundAsync(ct);
             return;
         }

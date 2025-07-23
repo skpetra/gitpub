@@ -31,4 +31,18 @@ public class QuestionService : IQuestionService
             .Where(q => questionIds.Contains(q.Id))
             .ToListAsync(ct);
     }
+
+    public async Task<bool> DoesQuestionExistByTextAsync(string text, CancellationToken ct = default)
+    {
+        return await _context.Questions
+            .AsNoTracking()
+            .AnyAsync(q => q.Text == text, ct);
+    }
+
+    public async Task<bool> DoesQuestionExistByIdAsync(int id, CancellationToken ct = default)
+    {
+        return await _context.Questions
+            .AsNoTracking()
+            .AnyAsync(q => q.Id == id, ct);
+    }
 }

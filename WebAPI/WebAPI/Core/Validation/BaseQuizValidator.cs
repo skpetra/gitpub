@@ -13,15 +13,22 @@ public abstract class BaseQuizValidator<T> : Validator<T>
     protected BaseQuizValidator()
     {
         RuleFor(x => x.Name)
+            .NotEmpty()
             .MustAsync(NameDoesNotExist)
                 .WithMessage(ErrorConstants.Quiz.NameAlreadyExists)
             .MaximumLength(LengthConstants.NameLength)
                 .WithMessage(x => ValidationMessages.MaxLength(nameof(x.Name), LengthConstants.NameLength));
 
-        RuleFor(x => x.ExistingQuestionIds)
-            .MustAsync(AllQuestionIdsExist)
-                .WithMessage(ErrorConstants.Quiz.SelectedQuestionsDoNotExist)
-            .When(x => x.ExistingQuestionIds.Length > 0);
+        RuleForEach(x => x.NewQuestions)
+            .SetValidator(new BaseQuestionValidator());
+
+        RuleForEach(x => x.ExistingQuestionIds)
+            .MustAsync(QuestionDoesNotExist)
+                .WithMessage(ErrorConstants.Question.QuestionDoesNotExist);
+
+        RuleFor(x => x)
+            .Must(x => (x.NewQuestions?.Count > 0) || (x.ExistingQuestionIds?.Length > 0))
+                .WithMessage(ErrorConstants.Quiz.AtLeastOneQuestionRequired);
     }
 
     private async Task<bool> NameDoesNotExist(string name, CancellationToken ct)
@@ -31,10 +38,10 @@ public abstract class BaseQuizValidator<T> : Validator<T>
         return !await quizService.DoesNameExistAsync(name, ct);
     }
 
-    private async Task<bool> AllQuestionIdsExist(int[] questionIds, CancellationToken ct)
+    private async Task<bool> QuestionDoesNotExist(int id, CancellationToken ct)
     {
         var questionService = Resolve<IQuestionService>();
 
-        return await questionService.DoAllQuestionsExistAsync(questionIds, ct);
+        return await questionService.DoesQuestionExistByIdAsync(id, ct);
     }
 }
