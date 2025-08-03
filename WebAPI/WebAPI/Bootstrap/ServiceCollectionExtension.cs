@@ -1,5 +1,7 @@
-﻿using WebAPI.BL.Services;
+﻿using FluentValidation;
+using WebAPI.BL.Services;
 using WebAPI.BL.Services.Interfaces;
+using WebAPI.Core.Validation;
 
 namespace WebAPI.Bootstrap;
 
@@ -19,6 +21,8 @@ public static class ServiceCollectionExtension
         services.AddScoped<IQuestionService, QuestionService>();
 
         services.AddSingleton<IExportService, ExportService>();
+
+        services.AddValidatorsFromAssemblyContaining<BaseQuestionValidator>();
 
         return services;
     }
