@@ -1,5 +1,6 @@
 ﻿using FastEndpoints;
 using FluentValidation;
+using WebAPI.BL.Models.Questions;
 using WebAPI.BL.Services.Interfaces;
 using WebAPI.Constants;
 using WebAPI.Core.Models;
@@ -10,7 +11,7 @@ namespace WebAPI.Core.Validation;
 public abstract class BaseQuizValidator<T> : Validator<T>
     where T : BaseQuizRequest
 {
-    protected BaseQuizValidator()
+    protected BaseQuizValidator(IValidator<QuestionAddDto> questionValidator)
     {
         RuleFor(x => x.Name)
             .NotEmpty()
@@ -20,7 +21,7 @@ public abstract class BaseQuizValidator<T> : Validator<T>
                 .WithMessage(x => ValidationMessages.MaxLength(nameof(x.Name), LengthConstants.NameLength));
 
         RuleForEach(x => x.NewQuestions)
-            .SetValidator(new BaseQuestionValidator());
+            .SetValidator(questionValidator);
 
         RuleForEach(x => x.ExistingQuestionIds)
             .MustAsync(QuestionDoesNotExist)
